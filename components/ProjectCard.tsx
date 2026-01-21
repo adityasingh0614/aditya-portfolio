@@ -5,7 +5,6 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowRight, ExternalLink } from "lucide-react";
 
 export function ProjectCard({ project }: any) {
-    const isClientProject = project.type.toLowerCase().includes("client");
 
     return (
         <Link href={`/projects/${project.slug}`}>
@@ -27,16 +26,6 @@ export function ProjectCard({ project }: any) {
 
                     {/* Overlay effect on hover */}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-500"></div>
-
-                    {/* Project Type Badge - Prominent Overlay */}
-                    <div className="absolute top-3 right-3 transform group-hover:scale-110 transition-transform duration-300">
-                        <Badge
-                            variant={isClientProject ? "default" : "secondary"}
-                            className={`${isClientProject ? 'bg-primary text-primary-foreground shadow-lg' : 'bg-secondary/90 backdrop-blur-sm'} text-xs font-semibold px-3 py-1.5`}
-                        >
-                            {project.type}
-                        </Badge>
-                    </div>
 
                     {/* Quick View Icon - appears on hover */}
                     <div className="absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-y-2 group-hover:translate-y-0">

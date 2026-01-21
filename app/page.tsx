@@ -5,10 +5,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { projects } from "@/data/projects";
 import Image from "next/image";
+import { FlutterOriginal, KotlinOriginal, FirebaseOriginal, AndroidOriginal } from 'devicons-react';
 import { ParticleBackground } from "@/components/ParticleBackground";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { SiFlutter, SiKotlin, SiFirebase, SiAmazonwebservices, SiMongodb, SiGit, SiPostman, SiAndroidstudio, SiJetpackcompose } from "react-icons/si";
-import { FaCreditCard, FaCode } from "react-icons/fa";
+
+import { SiAndroid, SiKotlin, SiFlutter, SiFirebase, SiJetpackcompose, SiAmazonwebservices, SiMongodb, SiSqlite, SiMaterialdesign } from "react-icons/si";
+import { FaCreditCard, FaLaptopCode } from "react-icons/fa";
 
 export default function Home() {
   const featuredProjects = projects.slice(0, 3);
@@ -115,15 +117,15 @@ export default function Home() {
                         <div className="flex items-center -space-x-2">
                           {/* Flutter Icon - Blue */}
                           <div className="w-9 h-9 rounded-full bg-white dark:bg-gray-800 border-2 border-white dark:border-gray-900 shadow-sm flex items-center justify-center">
-                            <SiFlutter className="w-5 h-5" style={{ color: '#02569B' }} />
+                            <FlutterOriginal size={24} className="w-5 h-5" style={{ color: '#02569B' }} />
                           </div>
                           {/* Kotlin Icon - Purple */}
                           <div className="w-9 h-9 rounded-full bg-white dark:bg-gray-800 border-2 border-white dark:border-gray-900 shadow-sm flex items-center justify-center">
-                            <SiKotlin className="w-5 h-5" style={{ color: '#7F52FF' }} />
+                            <AndroidOriginal size={24} className="w-5 h-5" style={{ color: '#7F52FF' }} />
                           </div>
                           {/* Firebase Icon - Yellow */}
                           <div className="w-9 h-9 rounded-full bg-white dark:bg-gray-800 border-2 border-white dark:border-gray-900 shadow-sm flex items-center justify-center">
-                            <SiFirebase className="w-5 h-5" style={{ color: '#FFCA28' }} />
+                            <FirebaseOriginal size="24" className="w-5 h-5" style={{ color: '#FFCA28' }} />
                           </div>
                         </div>
                         <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">Full Stack</span>
@@ -221,38 +223,94 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6 mb-8">
-              {featuredProjects.map((project) => (
+            <div className="grid md:grid-cols-1 gap-6 mb-8 max-w-4xl mx-auto">
+              {featuredProjects.map((project, index) => (
                 <Link key={project.slug} href={`/projects/${project.slug}`}>
-                  <Card className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer overflow-hidden">
-                    <div className="aspect-[9/16] relative bg-secondary/20 overflow-hidden">
-                      {project.screenshots[0] && (
-                        <Image
-                          src={project.screenshots[0]}
-                          alt={project.title}
-                          fill
-                          className="object-cover object-top"
-                        />
-                      )}
+                  <Card className="hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 cursor-pointer overflow-hidden group border-0 p-0">
+                    <div className="grid md:grid-cols-2 gap-0 min-h-[320px]">
+                      {/* Left Side - Logo, Title, Description, Tech Stack */}
+                      <div className={`p-8 flex flex-col justify-center space-y-6 ${index === 0 ? 'bg-gradient-to-br from-orange-500 via-red-500 to-pink-600' :
+                        index === 1 ? 'bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700' :
+                          'bg-gradient-to-br from-purple-600 via-violet-600 to-blue-700'
+                        }`}>
+
+                        {/* Logo */}
+                        <div className="w-16 h-16 rounded-2xl bg-white/95 flex items-center justify-center shadow-xl">
+                          {project.logo ? (
+                            <Image
+                              src={project.logo}
+                              alt={`${project.title} logo`}
+                              width={64}
+                              height={64}
+                              className="w-full h-full object-cover rounded-xl p-2"
+                            />
+                          ) : (
+                            <span className="text-2xl font-bold text-primary">
+                              {project.title.charAt(0)}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Title */}
+                        <h3 className="text-2xl md:text-3xl font-bold text-white line-clamp-2">
+                          {project.title}
+                        </h3>
+
+                        {/* Description */}
+                        <p className="text-white/90 text-sm md:text-base line-clamp-2 leading-relaxed">
+                          {project.cardDescription}
+                        </p>
+
+                        {/* Tech Stack Pills */}
+                        <div className="flex gap-2 flex-wrap">
+                          {project.techStack.slice(0, 4).map((tech) => (
+                            <Badge
+                              key={tech}
+                              className="text-xs bg-white/20 text-white border-white/30 hover:bg-white/30 transition-colors"
+                            >
+                              {tech}
+                            </Badge>
+                          ))}
+                        </div>
+
+                        {/* View Project Link */}
+                        <div className="flex items-center text-white font-semibold group-hover:gap-3 transition-all">
+                          <span>View Project</span>
+                          <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                        </div>
+                      </div>
+
+                      {/* Right Side - Phone Mockup with Screenshot */}
+                      <div className={`relative overflow-hidden flex items-center justify-center p-8 ${index === 0 ? 'bg-gradient-to-br from-orange-100 to-pink-100 dark:from-orange-950/30 dark:to-pink-950/30' :
+                        index === 1 ? 'bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-950/30 dark:to-purple-950/30' :
+                          'bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-950/30 dark:to-blue-950/30'
+                        }`}>
+                        {/* Phone Frame Mockup */}
+                        <div className="relative w-[200px] md:w-[240px] transform group-hover:scale-105 transition-transform duration-500">
+                          {/* Phone Shadow */}
+                          <div className="absolute inset-0 bg-black/20 blur-xl translate-y-4"></div>
+
+                          {/* Phone Container */}
+                          <div className="relative bg-black rounded-[2.5rem] p-2 shadow-2xl">
+                            {/* Screen */}
+                            <div className="relative bg-white dark:bg-gray-900 rounded-[2rem] overflow-hidden aspect-[9/19]">
+                              {/* Notch */}
+                              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-6 bg-black rounded-b-2xl z-10"></div>
+
+                              {/* Screenshot */}
+                              {project.screenshots[0] && (
+                                <Image
+                                  src={project.screenshots[0]}
+                                  alt={project.title}
+                                  fill
+                                  className="object-cover object-top"
+                                />
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <CardContent className="p-6 space-y-4">
-                      <div className="flex items-start justify-between gap-2">
-                        <h3 className="text-lg font-semibold line-clamp-2">{project.title}</h3>
-                        <Badge variant="secondary" className="shrink-0 text-xs">{project.type}</Badge>
-                      </div>
-
-                      <p className="text-sm text-muted-foreground line-clamp-2">
-                        {project.cardDescription}
-                      </p>
-
-                      <div className="flex gap-2 flex-wrap">
-                        {project.techStack.slice(0, 3).map((tech) => (
-                          <Badge key={tech} variant="outline" className="text-xs">
-                            {tech}
-                          </Badge>
-                        ))}
-                      </div>
-                    </CardContent>
                   </Card>
                 </Link>
               ))}
@@ -391,7 +449,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. Tech Stack */}
+      {/* 6. Tech Stack - WITH CDN ICONS */}
       <section className="py-14 px-6 bg-secondary/20">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10 space-y-3">
@@ -402,24 +460,32 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {/* Flutter - FIRST! */}
+            {/* Flutter */}
             <Card className="border-border/50 hover:border-blue-500/50 hover:shadow-lg transition-all duration-300 group cursor-default hover:-translate-y-1">
               <CardContent className="p-4 text-center space-y-2">
                 <div className="w-12 h-12 mx-auto bg-gradient-to-br from-blue-400/10 to-blue-600/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <SiFlutter className="w-7 h-7 text-blue-500" />
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg"
+                    alt="Flutter"
+                    className="w-7 h-7"
+                  />
                 </div>
                 <p className="text-sm font-semibold">Flutter</p>
                 <p className="text-xs text-muted-foreground">Cross-Platform</p>
               </CardContent>
             </Card>
 
-            {/* Android Studio */}
+            {/* Android */}
             <Card className="border-border/50 hover:border-green-500/50 hover:shadow-lg transition-all duration-300 group cursor-default hover:-translate-y-1">
               <CardContent className="p-4 text-center space-y-2">
                 <div className="w-12 h-12 mx-auto bg-gradient-to-br from-green-400/10 to-green-600/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <SiAndroidstudio className="w-7 h-7 text-green-500" />
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg"
+                    alt="Android"
+                    className="w-7 h-7"
+                  />
                 </div>
-                <p className="text-sm font-semibold">Android Studio</p>
+                <p className="text-sm font-semibold">Android</p>
                 <p className="text-xs text-muted-foreground">Native Dev</p>
               </CardContent>
             </Card>
@@ -428,7 +494,11 @@ export default function Home() {
             <Card className="border-border/50 hover:border-purple-500/50 hover:shadow-lg transition-all duration-300 group cursor-default hover:-translate-y-1">
               <CardContent className="p-4 text-center space-y-2">
                 <div className="w-12 h-12 mx-auto bg-gradient-to-br from-purple-400/10 to-purple-600/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <SiKotlin className="w-7 h-7 text-purple-500" />
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg"
+                    alt="Kotlin"
+                    className="w-7 h-7"
+                  />
                 </div>
                 <p className="text-sm font-semibold">Kotlin</p>
                 <p className="text-xs text-muted-foreground">Primary Lang</p>
@@ -439,7 +509,11 @@ export default function Home() {
             <Card className="border-border/50 hover:border-orange-500/50 hover:shadow-lg transition-all duration-300 group cursor-default hover:-translate-y-1">
               <CardContent className="p-4 text-center space-y-2">
                 <div className="w-12 h-12 mx-auto bg-gradient-to-br from-orange-400/10 to-yellow-500/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <SiFirebase className="w-7 h-7 text-orange-500" />
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg"
+                    alt="Firebase"
+                    className="w-7 h-7"
+                  />
                 </div>
                 <p className="text-sm font-semibold">Firebase</p>
                 <p className="text-xs text-muted-foreground">Backend & Auth</p>
@@ -450,10 +524,29 @@ export default function Home() {
             <Card className="border-border/50 hover:border-orange-600/50 hover:shadow-lg transition-all duration-300 group cursor-default hover:-translate-y-1">
               <CardContent className="p-4 text-center space-y-2">
                 <div className="w-12 h-12 mx-auto bg-gradient-to-br from-orange-500/10 to-orange-700/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <SiAmazonwebservices className="w-7 h-7 text-orange-600" />
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"
+                    alt="AWS"
+                    className="w-7 h-7"
+                  />
                 </div>
                 <p className="text-sm font-semibold">AWS</p>
                 <p className="text-xs text-muted-foreground">Cloud Services</p>
+              </CardContent>
+            </Card>
+
+            {/* MongoDB */}
+            <Card className="border-border/50 hover:border-green-600/50 hover:shadow-lg transition-all duration-300 group cursor-default hover:-translate-y-1">
+              <CardContent className="p-4 text-center space-y-2">
+                <div className="w-12 h-12 mx-auto bg-gradient-to-br from-green-500/10 to-green-700/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg"
+                    alt="MongoDB"
+                    className="w-7 h-7"
+                  />
+                </div>
+                <p className="text-sm font-semibold">MongoDB</p>
+                <p className="text-xs text-muted-foreground">Database</p>
               </CardContent>
             </Card>
 
@@ -468,25 +561,18 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            {/* Jetpack Compose */}
-            <Card className="border-border/50 hover:border-cyan-500/50 hover:shadow-lg transition-all duration-300 group cursor-default hover:-translate-y-1">
+            {/* Material Design */}
+            <Card className="border-border/50 hover:border-purple-600/50 hover:shadow-lg transition-all duration-300 group cursor-default hover:-translate-y-1">
               <CardContent className="p-4 text-center space-y-2">
-                <div className="w-12 h-12 mx-auto bg-gradient-to-br from-cyan-400/10 to-blue-500/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <SiJetpackcompose className="w-7 h-7 text-cyan-500" />
+                <div className="w-12 h-12 mx-auto bg-gradient-to-br from-purple-400/10 to-pink-500/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/materialui/materialui-original.svg"
+                    alt="Material Design"
+                    className="w-7 h-7"
+                  />
                 </div>
-                <p className="text-sm font-semibold">Jetpack Compose</p>
-                <p className="text-xs text-muted-foreground">Modern UI</p>
-              </CardContent>
-            </Card>
-
-            {/* MongoDB */}
-            <Card className="border-border/50 hover:border-green-600/50 hover:shadow-lg transition-all duration-300 group cursor-default hover:-translate-y-1">
-              <CardContent className="p-4 text-center space-y-2">
-                <div className="w-12 h-12 mx-auto bg-gradient-to-br from-green-500/10 to-green-700/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <SiMongodb className="w-7 h-7 text-green-600" />
-                </div>
-                <p className="text-sm font-semibold">MongoDB</p>
-                <p className="text-xs text-muted-foreground">Database</p>
+                <p className="text-sm font-semibold">Material Design</p>
+                <p className="text-xs text-muted-foreground">UI Framework</p>
               </CardContent>
             </Card>
 
@@ -494,7 +580,7 @@ export default function Home() {
             <Card className="border-border/50 hover:border-indigo-500/50 hover:shadow-lg transition-all duration-300 group cursor-default hover:-translate-y-1">
               <CardContent className="p-4 text-center space-y-2">
                 <div className="w-12 h-12 mx-auto bg-gradient-to-br from-indigo-400/10 to-purple-500/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <FaCode className="w-7 h-7 text-indigo-500" />
+                  <FaLaptopCode className="w-7 h-7 text-indigo-500" />
                 </div>
                 <p className="text-sm font-semibold">REST APIs</p>
                 <p className="text-xs text-muted-foreground">Integration</p>
@@ -505,7 +591,11 @@ export default function Home() {
             <Card className="border-border/50 hover:border-orange-700/50 hover:shadow-lg transition-all duration-300 group cursor-default hover:-translate-y-1">
               <CardContent className="p-4 text-center space-y-2">
                 <div className="w-12 h-12 mx-auto bg-gradient-to-br from-orange-600/10 to-red-600/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <SiGit className="w-7 h-7 text-orange-700" />
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
+                    alt="Git"
+                    className="w-7 h-7"
+                  />
                 </div>
                 <p className="text-sm font-semibold">Git & GitHub</p>
                 <p className="text-xs text-muted-foreground">Version Control</p>
@@ -515,26 +605,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 7. About Me */}
-      <ScrollReveal delay={100}>
-        <section className="py-12 px-6 bg-secondary/10">
-          <div className="max-w-3xl mx-auto">
-            <div className="text-center space-y-4">
-              <h2 className="text-2xl md:text-3xl font-bold">About</h2>
-              <div className="space-y-3 text-base text-muted-foreground">
-                <p>
-                  I help startups turn ideas into production-ready mobile apps.
-                  With experience building apps that serve thousands of users, I focus on results.
-                </p>
-                <p>
-                  Whether you need an e-commerce platform or a custom solution,
-                  I build apps that are fast, secure, and designed to grow.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </ScrollReveal>
+
 
       {/* 8. Final CTA (Ready to Build) */}
       <ScrollReveal delay={100}>
